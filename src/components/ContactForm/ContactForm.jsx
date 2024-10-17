@@ -1,4 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import InputMask from "react-input-mask";
 import * as Yup from "yup";
 import { useId } from "react";
 
@@ -24,11 +25,11 @@ const ContactForm = ({ addContact }) => {
   const nameId = useId();
   const numberId = useId();
 
-    const onSubmit = (values, actions) => {
-      addContact(values);
-      actions.resetForm();
-    };
- 
+  const onSubmit = (values, actions) => {
+    addContact(values);
+    actions.resetForm();
+  };
+
   return (
     <Formik
       initialValues={initialValues}

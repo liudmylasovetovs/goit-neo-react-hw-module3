@@ -3,33 +3,25 @@ import ContactList from "./components/ContactList/ContactList";
 import SearchBox from "./components/SearchBox/SearchBox";
 import initialContacts from "./contacts.json";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import "./App.css";
 
-// const initial_contacts = [
-//   { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
-//   { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
-//   { id: "id-3", name: "Eden Clements", number: "645-17-79" },
-//   { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
-// ];
-
 const App = () => {
-  const [contacts, setContacts] = useState(initialContacts);
-  const [filter, setFilter] = useState('');
-  //   return (
-  //     JSON.parse(window.localStorage.getItem("contacts")) ?? initial_contacts
-  //   );
-  // });
+  const [contacts, setContacts] = useState(() => {
+    return (
+      JSON.parse(window.localStorage.getItem("contacts")) ?? initialContacts
+    );
+  });
 
-    // useEffect(() => {
-    // window.localStorage.setItem("contacts", JSON.stringify(contacts));
-    // }, [contacts]);
-  
-  
-  
+  const [filter, setFilter] = useState("");
+
+  useEffect(() => {
+    window.localStorage.setItem("contacts", JSON.stringify(contacts));
+  }, [contacts]);
+
   const addContact = (newContact) => {
-    setContacts((prevContacts) => [newContact, ...prevContacts]);
+    setContacts((prevContacts) => [...prevContacts, newContact]);
   };
 
   const deleteContact = (contactId) => {
@@ -38,11 +30,11 @@ const App = () => {
     );
   };
 
-  // const onChangeFilter = (e) => {
-  //   setFilter(e.target.value);
-  // };
+  const onFilter = (e) => {
+    setFilter(e.target.value);
+  };
 
-  const getContacts = () => {
+  const getFilteredContacts = () => {
     const normalizedFilter = filter.toLowerCase();
     return contacts.filter(({ name }) =>
       name.toLowerCase().includes(normalizedFilter)
@@ -50,15 +42,11 @@ const App = () => {
   };
 
   return (
-
-  <div>
-    <h1>Phonebook</h1>
-    <ContactForm addContact={addContact}/>
-      <SearchBox filter={filter} onFilter={setFilter} />
-      <ContactList
-        contacts={getContacts()}
-        onDelete={deleteContact}
-      />
+    <div>
+      <h1>Phonebook</h1>
+      <ContactForm addContact={addContact} />
+      <SearchBox filter={filter} onFilter={onFilter} />
+      <ContactList contacts={getFilteredContacts()} onDelete={deleteContact} />
     </div>
   );
 };
