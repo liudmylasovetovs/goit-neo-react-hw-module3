@@ -24,11 +24,11 @@ const ContactForm = ({ addContact }) => {
   const nameId = useId();
   const numberId = useId();
 
-  const onSubmit = (values, actions) => {
-    addContact(values);
-    actions.resetForm();
-  };
-
+    const onSubmit = (values, actions) => {
+      addContact(values);
+      actions.resetForm();
+    };
+ 
   return (
     <Formik
       initialValues={initialValues}
@@ -39,14 +39,24 @@ const ContactForm = ({ addContact }) => {
         <div className={styles.name}>
           <label htmlFor={nameId}>Name</label>
           <Field id={nameId} name="name" type="text" />
-          <ErrorMessage className={styles.errorMessage} name="name" component="div" />
+          <ErrorMessage
+            className={styles.errorMessage}
+            name="name"
+            component="div"
+          />
         </div>
-        <div className={styles.name}>
+        <div className={styles.number}>
           <label htmlFor={numberId}>Number</label>
           <Field id={numberId} name="number" type="tel" />
-          <ErrorMessage className={styles.errorMessage} name="number" component="div" />
+          <ErrorMessage
+            className={styles.errorMessage}
+            name="number"
+            component="div"
+          />
         </div>
-        <button className={styles.addButton} type="submit">Add contact</button>
+        <button className={styles.addButton} type="submit">
+          Add contact
+        </button>
       </Form>
     </Formik>
   );
